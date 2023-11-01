@@ -69,4 +69,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Node.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Element.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Material_Property.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Force.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Boundary_Condition.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

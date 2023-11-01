@@ -148,6 +148,13 @@
     <ClInclude Include="Node.h" />
     <ClInclude Include="Point.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Boundary_Condition.txt" />
+    <Text Include="Element.txt" />
+    <Text Include="Force.txt" />
+    <Text Include="Material_Property.txt" />
+    <Text Include="Node.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
