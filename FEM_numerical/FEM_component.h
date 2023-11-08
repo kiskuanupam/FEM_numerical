@@ -27,7 +27,9 @@ public:
 	void read_material_data();
 	void read_force_data();
 	void read_BC();
+
 	void cal_RHS();
+	void cal_stiffness();
 
 
 };
