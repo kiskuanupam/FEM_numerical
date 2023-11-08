@@ -26,7 +26,7 @@ void Element::calculate_stiffness()
 	for (size_t i = 0; i < 2 * ele_type; i++)
 	{
 		Temp_B(0, 0) = -1 / length;
-		Temp_B(2, 0) = 1 / length;
+		Temp_B(0, 2) = 1 / length;
 	}
 	B = Temp_B;
 
