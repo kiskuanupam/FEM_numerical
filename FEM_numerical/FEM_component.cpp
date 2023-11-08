@@ -6,6 +6,7 @@ void FEM_component::read_node_data()
 	file.open("Node.txt");
 
 	file >> no_of_nodes;
+	global_total_DOF = 2 * no_of_nodes;
 
 	int id{};
 	double x, y;
@@ -179,5 +180,123 @@ void FEM_component::apply_boundary_con()
 	{
 		ele_list[i].apply_BC(no_of_BC, bc_list);
 	}
+}
+/*
+
+
+*/
+int FEM_component::determine_size_of_Global_A(int symmetry)
+{
+	int glCnt = 0;
+	for (int i = 0; i < this->no_of_elements; i++) {
+		int n = 4; // no of dof of each element
+		if (symmetry == 1) glCnt += n * (n + 1) / 2;
+		if (symmetry == 0) glCnt += n * n;
+	}
+	return glCnt;
+}
+
+void FEM_component::Create_MUMPS_parameters(int* eltptr, int* eltvar, double* a_elt, double* rhs_)
+{
+	long sum = 0;
+	for (int i = 0; i < this->no_of_elements; i++) {
+		int nn = 4;
+		for (int i_ = 0; i_ < nn; i_++) {
+			for (int j_ = i_; j_ < nn; j_++) {
+				a_elt[sum++] = this->ele_list[i].K(j_, i_);
+			}
+		}
+	}
+	sum = 0;
+	eltptr[0] = 1;
+	for (int i = 0; i < this->no_of_elements; i++) {
+		if (i > 0) eltptr[i] = eltptr[i - 1] + 4;
+		for (int m = 0; m < 2; m++) {
+			eltvar[sum++] = 2 * ele_list[i].connectivity[m]->get_ID() + 1;
+			eltvar[sum++] = 2 * ele_list[i].connectivity[m]->get_ID() + 2;
+		}
+	}
+	eltptr[this->no_of_elements] = eltptr[this->no_of_elements - 1] + 4;
+
+	for (int i = 0; i < this->global_total_DOF; i++) {
+		rhs_[i] = this->RHS(i, 0);
+	}
+
+}
+
+void FEM_component::solve_MUMPS()
+{
+	int N{};
+	int NELT{};
+	int NVAR{};
+	int NVAL{};
+	int* ELTPTR = nullptr;
+	int* ELTVAR = nullptr;
+	double* A_ELT = nullptr;
+	double* RHS = nullptr;
+
+	N = this->global_total_DOF; // total no of variable
+	NELT = this->no_of_elements;
+	NVAR = total_ele_dofs; // no of dof for each element
+
+	ELTPTR = new int[NELT + 1];
+	ELTVAR = new int[NVAR];
+	RHS = new double[N];
+	NVAL = this->determine_size_of_Global_A(1);
+	A_ELT = new double[NVAL];
+
+	this->Create_MUMPS_parameters(ELTPTR, ELTVAR, A_ELT, RHS);
+	MUMPS_paramters param;
+	param.N = N;
+	param.NELT = NELT;
+	param.NVAR = NVAR;
+	param.ELTPTR = ELTPTR;
+	param.ELTVAR = ELTVAR;
+	param.A_ELT = A_ELT;
+	param.rhs = RHS;
+
+	Linear_solver solve;
+	param.rhs = solve.Evaluate(param);
+
+	Matrix<double> temp(this->global_total_DOF, 1);
+	this->displacement_vector = temp;
+
+	for (int i = 0; i < this->global_total_DOF; i++) this->displacement_vector(i, 0) = param.rhs[i];
+
+	std::cout << "Printing displacement............\n";
+	std::cout << this->displacement_vector << std::endl;
+	std::cin.get();
+
+	delete[] param.ELTPTR;
+	delete[] param.ELTVAR;
+	delete[] param.A_ELT;
+	delete[] param.rhs;
+
+}
+
+void FEM_component::get_secondary_vars()
+{
+	Matrix<double> ele_disp(4, 1);
+	Matrix<double> rec_vect(global_total_DOF, 1);
+	for (int i = 0; i < this->no_of_elements; i++) {
+		int nn = ele_list[i].ele_type;
+		for (int j = 0; j < nn; j++) { // 2 nodes
+			for (int m = 0; m < 2; m++) { // 2 dofs
+				ele_disp(2 * j + m, 0) = displacement_vector(2 * ele_list[i].connectivity[j]->get_ID() + m, 0);
+			}
+		}
+		ele_list[i].cal_strain(ele_disp);
+		ele_list[i].cal_stress();
+		Matrix<double> ele_rec = ele_list[i].get_reaction();
+		for (int j = 0; j < nn; j++) { // 2 nodes
+			for (int m = 0; m < 2; m++) { // 2 dofs
+				rec_vect(2 * ele_list[i].connectivity[j]->get_ID() + m, 0) += ele_rec(2 * j + m, 0);
+			}
+		}
+	}
+	reaction_vector = rec_vect;
+	std::cout << "Printing Reaction Vector............\n";
+	std::cout << reaction_vector << std::endl;
+	std::cin.get();
 }
 
