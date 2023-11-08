@@ -167,7 +167,7 @@ void FEM_component::cal_stiffness()
 {
 	for (size_t i = 0; i < no_of_elements; i++)
 	{
-
+		ele_list[i].calculate_stiffness();
 	}
 }
 
