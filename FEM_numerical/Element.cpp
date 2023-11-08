@@ -67,7 +67,7 @@ void Element::cal_stress()
 {
 }
 
-void Element::get_reaction()
+Eigen::MatrixXd Element::get_reaction()
 {
 }
 

@@ -25,5 +25,5 @@ public:
 
 	void cal_strain(Eigen::MatrixXd disp);
 	void cal_stress();
-	void get_reaction();
+	Eigen::MatrixXd get_reaction();
 };
