@@ -260,7 +260,7 @@ void FEM_component::solve_MUMPS()
 	Linear_solver solve;
 	param.rhs = solve.Evaluate(param);
 
-	Matrix<double> temp(this->global_total_DOF, 1);
+	Eigen::MatrixXd temp(this->global_total_DOF, 1);
 	this->displacement_vector = temp;
 
 	for (int i = 0; i < this->global_total_DOF; i++) this->displacement_vector(i, 0) = param.rhs[i];
@@ -278,8 +278,8 @@ void FEM_component::solve_MUMPS()
 
 void FEM_component::get_secondary_vars()
 {
-	Matrix<double> ele_disp(4, 1);
-	Matrix<double> rec_vect(global_total_DOF, 1);
+	Eigen::MatrixXd ele_disp(4, 1);
+	Eigen::MatrixXd rec_vect(global_total_DOF, 1);
 	for (int i = 0; i < this->no_of_elements; i++) {
 		int nn = ele_list[i].ele_type;
 		for (int j = 0; j < nn; j++) { // 2 nodes
@@ -289,7 +289,7 @@ void FEM_component::get_secondary_vars()
 		}
 		ele_list[i].cal_strain(ele_disp);
 		ele_list[i].cal_stress();
-		Matrix<double> ele_rec = ele_list[i].get_reaction();
+		Eigen::MatrixXd ele_rec = ele_list[i].get_reaction();
 		for (int j = 0; j < nn; j++) { // 2 nodes
 			for (int m = 0; m < 2; m++) { // 2 dofs
 				rec_vect(2 * ele_list[i].connectivity[j]->get_ID() + m, 0) += ele_rec(2 * j + m, 0);

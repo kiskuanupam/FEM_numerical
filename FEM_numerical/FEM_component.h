@@ -7,6 +7,8 @@
 #include<vector>
 #include<fstream>
 #include<Eigen/Dense>
+#include<Eigen/Core>
+#include"Linear_solver.h"
 
 
 class FEM_component
@@ -20,7 +22,11 @@ public:
 	std::vector<Element>ele_list;
 	std::vector<Force>force_list;
 	std::vector<Boundary_Condition>bc_list;
+
 	Eigen::MatrixXd RHS;
+	Eigen::MatrixXd lhs;
+	Eigen::MatrixXd displacement_vector{};
+	Eigen::MatrixXd reaction_vector{};
 
 	void read_node_data();
 	void read_element_data();
