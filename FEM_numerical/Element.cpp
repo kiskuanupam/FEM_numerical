@@ -43,7 +43,20 @@ void Element::calculate_stiffness()
 
 }
 
-void Element::apply_BC()
+void Element::apply_BC(int n_BC, std::vector<Boundary_Condition> BC_list)
 {
+	for (size_t i = 0; i < ele_type; i++)
+	{
+		for (size_t j = 0; j < n_BC; j++)
+		{
+			if (connectivity[i]->get_ID() == BC_list[j].node_ID)
+			{
+				int n;
+				n = 2 * i + BC_list[j].node_dof;
+				K(n, n) += alpha;
+			}
+		}
+	}
 }
+
 
