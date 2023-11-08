@@ -61,14 +61,18 @@ void Element::apply_BC(int n_BC, std::vector<Boundary_Condition> BC_list)
 
 void Element::cal_strain(Eigen::MatrixXd disp)
 {
+	strain = B * T * disp;
 }
 
 void Element::cal_stress()
 {
+	stress = strain * (mat->youngs_mod);
 }
 
 Eigen::MatrixXd Element::get_reaction()
 {
+	Eigen::MatrixXd temp;
+	temp = T.transpose() * (B.transpose() * stress) * (mat->area * length);
 }
 
 
