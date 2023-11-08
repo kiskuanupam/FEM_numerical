@@ -23,6 +23,7 @@ void Element::calculate_stiffness()
 
 	//B matrix
 	Eigen::MatrixXd Temp_B(1, 2 * ele_type);
+	Temp_B.setZero();
 	for (size_t i = 0; i < 2 * ele_type; i++)
 	{
 		Temp_B(0, 0) = -1 / length;
