@@ -59,4 +59,16 @@ void Element::apply_BC(int n_BC, std::vector<Boundary_Condition> BC_list)
 	}
 }
 
+void Element::cal_strain(Eigen::MatrixXd disp)
+{
+}
+
+void Element::cal_stress()
+{
+}
+
+void Element::get_reaction()
+{
+}
+
 
