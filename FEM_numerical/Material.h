@@ -3,7 +3,7 @@ class Material
 {
 public:
 	int id{};
-	int youngs_mod{};
+	double youngs_mod{};
 	double area{};
 
 	Material();
