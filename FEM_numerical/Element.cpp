@@ -73,6 +73,7 @@ Eigen::MatrixXd Element::get_reaction()
 {
 	Eigen::MatrixXd temp;
 	temp = T.transpose() * (B.transpose() * stress) * (mat->area * length);
+	return temp;
 }
 
 
