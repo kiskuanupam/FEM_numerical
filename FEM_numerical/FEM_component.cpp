@@ -171,3 +171,11 @@ void FEM_component::cal_stiffness()
 	}
 }
 
+void FEM_component::apply_boundary_con()
+{
+	for (size_t i = 0; i < no_of_elements; i++)
+	{
+		ele_list[i].apply_BC(no_of_BC,bc_list);
+	}
+}
+

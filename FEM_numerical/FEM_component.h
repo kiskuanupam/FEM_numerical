@@ -30,6 +30,7 @@ public:
 
 	void cal_RHS();
 	void cal_stiffness();
+	void apply_boundary_con();
 
 
 };
