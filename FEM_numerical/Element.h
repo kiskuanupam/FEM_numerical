@@ -4,6 +4,9 @@
 #include<vector>
 #include<Eigen/Dense>
 #include"Line.h"
+#include<iostream>
+#include"Boundary_Condition.h"
+#define alpha 10E20
 
 
 class Element
