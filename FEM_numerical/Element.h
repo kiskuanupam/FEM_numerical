@@ -18,6 +18,7 @@ public:
 	Material* mat;
 
 	Eigen::MatrixXd T, B, K;
+	Eigen::MatrixXd strain, stress;
 
 	void calculate_stiffness();
 	void apply_BC(int n_BC, std::vector<Boundary_Condition> BC_list);
