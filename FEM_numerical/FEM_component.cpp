@@ -52,15 +52,17 @@ void FEM_component::read_element_data()
 				break;
 			}
 		}
+
+		file >> mat_type;
 		for (size_t l = 0; l < no_of_materials; l++)
 		{
-			file >> mat_type;
 			if (mat_type == material_list[i].id)
 			{
-				ele_list[i].mat = &material_list[l];
+				temp.mat = &material_list[l];
 			}
 			break;
 		}
+		ele_list.push_back(temp);
 	}
 	file.close();
 
