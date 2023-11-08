@@ -35,18 +35,19 @@ void FEM_component::read_element_data()
 
 	for (size_t i = 0; i < no_of_elements; i++) //no of element loop
 	{
-		file >> id >> n;
-		ele_list[i].id = id;
-		ele_list[i].ele_type = 2;
+		Element temp;
+		file >> id ;
+		temp.id = id;
+		temp.ele_type = 2;
 
-		for (size_t j = 0; j < ele_list[i].ele_type; j++) //element type
+		for (size_t j = 0; j < temp.ele_type; j++) //element type
 		{
 			file >> n;
 			for (size_t k = 0; k < no_of_nodes; k++)  //no of nodes
 			{
 				if (node_list[k].get_ID() == n)
 				{
-					ele_list[i].connectivity.push_back(&node_list[k]);
+					temp.connectivity.push_back(&node_list[k]);
 				}
 				break;
 			}
