@@ -32,6 +32,11 @@ public:
 	void cal_stiffness();
 	void apply_boundary_con();
 
+	void solve_MUMPS();
+	void get_secondary_vars();
+	int determine_size_of_Global_A(int symmetry);
+	void Create_MUMPS_parameters(int* eltptr, int* eltvar, double* a_elt, double* rhs_);
+
 
 };
 
