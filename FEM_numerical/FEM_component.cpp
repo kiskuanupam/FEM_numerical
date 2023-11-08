@@ -31,6 +31,7 @@ void FEM_component::read_element_data()
 	file.open("Element.txt");
 
 	file >> no_of_elements;
+	total_ele_dofs = 0;
 
 	int id, n, mat_type;
 

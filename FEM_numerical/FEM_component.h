@@ -12,7 +12,7 @@
 class FEM_component
 {
 public:
-	int no_of_nodes, no_of_elements, no_of_force, no_of_materials, no_of_BC, global_total_DOF;
+	int no_of_nodes, no_of_elements, no_of_force, no_of_materials, no_of_BC, global_total_DOF, total_ele_dofs;
 
 
 	std::vector<Node>node_list;
