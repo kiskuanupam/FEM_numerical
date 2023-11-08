@@ -43,3 +43,7 @@ void Element::calculate_stiffness()
 
 }
 
+void Element::apply_BC()
+{
+}
+
