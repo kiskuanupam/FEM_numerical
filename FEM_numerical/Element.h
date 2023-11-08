@@ -21,4 +21,8 @@ public:
 
 	void calculate_stiffness();
 	void apply_BC(int n_BC, std::vector<Boundary_Condition> BC_list);
+
+	void cal_strain(Eigen::MatrixXd disp);
+	void cal_stress();
+	void get_reaction();
 };
