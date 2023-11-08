@@ -55,6 +55,7 @@ void FEM_component::read_element_data()
 			}
 		}
 
+		total_ele_dofs += 2 * temp.ele_type;
 		file >> mat_type;
 		for (size_t l = 0; l < no_of_materials; l++)
 		{
