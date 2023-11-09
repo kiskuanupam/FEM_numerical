@@ -1,5 +1,14 @@
 #include "FEM_component.h"
 
+void FEM_component::read_data()
+{
+	this->read_material_data();
+	this->read_BC();
+	this->read_force_data();
+	this->read_node_data();
+	this->read_element_data();
+}
+
 void FEM_component::read_node_data()
 {
 	std::ifstream file;
