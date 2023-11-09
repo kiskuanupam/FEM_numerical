@@ -28,6 +28,7 @@ public:
 	Eigen::MatrixXd displacement_vector{};
 	Eigen::MatrixXd reaction_vector{};
 
+	void read_data();
 	void read_node_data();
 	void read_element_data();
 	void read_material_data();
